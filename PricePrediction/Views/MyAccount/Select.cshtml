@@ -1,0 +1,72 @@
+﻿@model IEnumerable<PricePrediction.Models.tblProduct>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Product List</title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div style="margin:10px 200px auto; width:850px;">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Product List</div>
+            <div class="panel-body">
+                <p>
+                    @Html.ActionLink("Create New Product", "Create", null, new { @class = "btn btn-success" })
+                   
+                </p>
+                <a href="~/ApplicationInsights.config"></a>
+                <table class="table table-responsive">
+                    <tr>
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.pName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.pBrand)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.photo)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.description)
+                        </th>
+                        <th></th>
+                    </tr>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.pName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.pBrand)
+                            </td>
+                            <td>
+                                <img src="~/ProductPhoto/@item.photo" height="50" width="50" />
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.description)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { id = item.pID }, new { @class = "btn btn-primary" }) |
+                                @Html.ActionLink("Details", "Details", new { id = item.pID }, new { @class = "btn btn-info" }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = item.pID }, new { @class = "btn btn-danger" })
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

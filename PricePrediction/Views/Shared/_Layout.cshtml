@@ -1,0 +1,116 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <script src="~/scripts/js/SharedScript.js"></script>
+    <style>
+        .navbar {
+            background: url('../../Image/stock2.jpg');
+            background-size: cover;
+            padding: 5px;
+        }
+
+        .active {
+            color: azure;
+            font-size: 20px;
+            font-family: 'Blackadder ITC';
+        }
+
+        .menu, .menu li, .menu li a {
+            list-style: none;
+            margin-top: 5px;
+            float: left;
+            margin-right: 5px;
+            font-size: small;
+            color: azure;
+        }
+
+        .text-center {
+            float: left;
+            text-align: center;
+            width: 50%;
+        }
+
+        .right {
+            float: right;
+            text-align: center;
+            width: 50%;
+        }
+    </style>
+    <link href="~/Content/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/css/flexslider.css" rel="stylesheet" />
+    <link href="~/Content/css/testimonails-slider.css" rel="stylesheet" />
+    <link href="~/Content/css/font-awesome.css" rel="stylesheet" />
+    <link href="~/Content/css/templatemo_misc.css" rel="stylesheet" />
+    <link href="~/Content/css/templatemo_style.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <b><a class="active" href="@Url.Action("Index")"> <img src="~/Image/abc.png" height="40" width="50" style="padding-right:10px;" />Electronix E-Commerce</a></b>
+        <div class="float" style="float:right;">
+            <ul class="menu ml-auto">
+                <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                <li>@Html.ActionLink("Products", "Product", "Home")</li>
+                <li>@Html.ActionLink("About Us", "About", "Home")</li>
+
+
+                @if (User.IsInRole("Admin"))
+                {
+                    <li>@Html.ActionLink("Admin Index", "AdminIndex", "Home")</li>
+
+                }
+
+
+                <li>
+                    @{
+                        if (User.Identity.IsAuthenticated)
+                        {
+                            using (Html.BeginForm("LogOut", "MyAccount", FormMethod.Post, new { id = "logoutForm" }))
+                            {
+                                <a href="Javascript:document.getElementById('logoutForm').submit()">Logout</a>
+                            }
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Signup", "Signup", "MyAccount")
+                            @Html.ActionLink("Login", "Login", "MyAccount")
+                        }
+
+                    }
+                </li>
+            </ul>
+        </div>
+
+    </div>
+
+
+    @RenderBody()
+    <footer style="background:url('../../Image/stock2.jpg');" class="navbar-fixed-bottom">
+        <div class="container" style="text-align:center; color:azure">
+            <i class="fas fa-copyright">Copyright:2019 "Electronix E-Commerce"</i>
+            <br />
+            Follow Us:
+            <br>
+            <i class="fab fa-facebook"> Electronix E-Commerce</i>
+            <br />
+            Contact Us:
+            <br />
+            <i class="fa fa-phone"> 9876543210</i>
+            <br /><i class="fas fa-map-marker">Kathmandu, Nepal</i>
+        </div>
+    </footer>
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <script src="~/scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/scripts/js/bootstrap.js"></script>
+    <script src="~/scripts/js/main.js"></script>
+    <script src="~/scripts/js/plugins.js"></script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="EcommerceDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="tblBanner">
+    <Key>
+      <PropertyRef Name="bID" />
+    </Key>
+    <Property Name="bID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="bTitle" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="bDescription" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="bPhoto" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="tblProduct">
+    <Key>
+      <PropertyRef Name="pID" />
+    </Key>
+    <Property Name="pID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="pName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="pBrand" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="uID" Type="Int32" />
+    <Property Name="photo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="tblUser" Relationship="Self.FK_tblProduct_tblUser" FromRole="tblProduct" ToRole="tblUser" />
+    <Property Name="price" Type="Decimal" Precision="18" Scale="0" />
+  </EntityType>
+  <EntityType Name="tblRole">
+    <Key>
+      <PropertyRef Name="roleID" />
+    </Key>
+    <Property Name="roleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="roleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="tblUserRoles" Relationship="Self.FK_tblUserRoles_tblRoles" FromRole="tblRoles" ToRole="tblUserRoles" />
+  </EntityType>
+  <EntityType Name="tblUser">
+    <Key>
+      <PropertyRef Name="uID" />
+    </Key>
+    <Property Name="uID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="tblProducts" Relationship="Self.FK_tblProduct_tblUser" FromRole="tblUser" ToRole="tblProduct" />
+    <NavigationProperty Name="tblUserRoles" Relationship="Self.FK_tblUserRoles_tblUser" FromRole="tblUser" ToRole="tblUserRoles" />
+  </EntityType>
+  <EntityType Name="tblUserRole">
+    <Key>
+      <PropertyRef Name="urID" />
+    </Key>
+    <Property Name="urID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="uID" Type="Int32" />
+    <Property Name="roleID" Type="Int32" />
+    <NavigationProperty Name="tblRole" Relationship="Self.FK_tblUserRoles_tblRoles" FromRole="tblUserRoles" ToRole="tblRoles" />
+    <NavigationProperty Name="tblUser" Relationship="Self.FK_tblUserRoles_tblUser" FromRole="tblUserRoles" ToRole="tblUser" />
+  </EntityType>
+  <Association Name="FK_tblProduct_tblUser">
+    <End Role="tblUser" Type="Self.tblUser" Multiplicity="0..1" />
+    <End Role="tblProduct" Type="Self.tblProduct" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblUser">
+        <PropertyRef Name="uID" />
+      </Principal>
+      <Dependent Role="tblProduct">
+        <PropertyRef Name="uID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblUserRoles_tblRoles">
+    <End Role="tblRoles" Type="Self.tblRole" Multiplicity="0..1" />
+    <End Role="tblUserRoles" Type="Self.tblUserRole" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblRoles">
+        <PropertyRef Name="roleID" />
+      </Principal>
+      <Dependent Role="tblUserRoles">
+        <PropertyRef Name="roleID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblUserRoles_tblUser">
+    <End Role="tblUser" Type="Self.tblUser" Multiplicity="0..1" />
+    <End Role="tblUserRoles" Type="Self.tblUserRole" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblUser">
+        <PropertyRef Name="uID" />
+      </Principal>
+      <Dependent Role="tblUserRoles">
+        <PropertyRef Name="uID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="EcommerceDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <EntitySet Name="tblBanners" EntityType="Self.tblBanner" />
+    <EntitySet Name="tblProducts" EntityType="Self.tblProduct" />
+    <EntitySet Name="tblRoles" EntityType="Self.tblRole" />
+    <EntitySet Name="tblUsers" EntityType="Self.tblUser" />
+    <EntitySet Name="tblUserRoles" EntityType="Self.tblUserRole" />
+    <AssociationSet Name="FK_tblProduct_tblUser" Association="Self.FK_tblProduct_tblUser">
+      <End Role="tblUser" EntitySet="tblUsers" />
+      <End Role="tblProduct" EntitySet="tblProducts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblUserRoles_tblRoles" Association="Self.FK_tblUserRoles_tblRoles">
+      <End Role="tblRoles" EntitySet="tblRoles" />
+      <End Role="tblUserRoles" EntitySet="tblUserRoles" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblUserRoles_tblUser" Association="Self.FK_tblUserRoles_tblUser">
+      <End Role="tblUser" EntitySet="tblUsers" />
+      <End Role="tblUserRoles" EntitySet="tblUserRoles" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,33 @@
+﻿@model IEnumerable<PricePrediction.Models.tblProduct>
+
+@{
+    ViewBag.Title = "Product";
+}
+<style>
+    .row {
+        padding: 15px;
+        margin-top: 80px;
+        text-align: center;
+    }
+</style>
+
+
+<div class="row">
+
+    @foreach (var item in Model)
+    {
+        <div class="col-md-4">
+
+            <a target="_blank" href="~/ProductPhoto/@item.photo" style="margin-bottom:30px; border:1px solid orange; display:inline-block">
+                <img src="~/ProductPhoto/@item.photo" height="250" width="280" />
+                <h4>@item.pName</h4>
+                <p class="desc">@item.description</p>
+                
+
+            </a>
+        </div>
+    }
+
+</div>
+
+
